@@ -823,12 +823,14 @@ async def on_member_join(member):
 
 @bot.event
 async def on_ready():
-    guild = discord.Object(id=GUILD_ID)
+    # Global sync (all servers)
+    await bot.tree.sync()
 
-    bot.tree.copy_global_to(guild=guild)
+    # Guild sync (instant dev server)
+    guild = discord.Object(id=GUILD_ID)
     await bot.tree.sync(guild=guild)
 
     check_subscriptions.start()
-    print("⚡ Commands synced instantly to dev server")
+    print("Bot Online")
 
 bot.run(TOKEN)
